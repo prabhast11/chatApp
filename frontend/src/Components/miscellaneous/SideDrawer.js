@@ -27,7 +27,8 @@ import { Menu, MenuButton ,
         useDisclosure, 
         DrawerFooter, 
         Input,
-        useToast
+        useToast,
+        Spinner
     } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
@@ -53,7 +54,7 @@ const SideDrawer = () => {
             if(!search){
                 toast({
                     title: 'Empty search',
-                    description: "Please enter the search term",
+                    description: "Please enter the search value",
                     status: 'warning',
                     duration: 5000,
                     isClosable: true,
@@ -84,10 +85,8 @@ const SideDrawer = () => {
                     isClosable: true,
                     position : 'top-left'
                   })
-                
+                }
             }
-
-        }
 
         //craeting the chat with provided id
         const accessChat =async (userId) =>{
@@ -101,9 +100,14 @@ const SideDrawer = () => {
                         }
                     }
                     
-                    const {data} = await axios.post('/api/chat',{ userId }, config)
+                    const { data } = await axios.post('/api/chat',{ userId }, config)
 
-                    setLoading(false)
+                    if(chats.find((c) => c._id === data._id))
+                    {
+                        setChats([data, ...chats])
+                    }
+
+                    setLoadingChat(false)
                     setSelectedChat(data)
                     onClose()
 
@@ -115,7 +119,7 @@ const SideDrawer = () => {
                     status: 'error',
                     duration: 5000,
                     isClosable: true,
-                    position : 'top-left'
+                    position : 'bottom-left'
                   })
                 
             }
@@ -172,7 +176,8 @@ const SideDrawer = () => {
                     <MenuItem 
                     onClick={logoutHandler}
                     >
-                        Logout</MenuItem>
+                        Logout
+                </MenuItem>
                 </MenuList>
             </Menu>
         </div>
@@ -197,6 +202,7 @@ const SideDrawer = () => {
                 </Input>
                 <Button onClick={handleSearch}>Go</Button>
         </Box>
+
                 
         {
             loading ? (<ChatLoading></ChatLoading>) : searchResult?.map( user =>
@@ -207,9 +213,22 @@ const SideDrawer = () => {
                 >
                 </UserListItem>)
         }
+        {loadingChat && <Spinner ml="auto" display="flex"/>}
       </DrawerBody>
       </DrawerContent>
     </Drawer>
+
+    {/* <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader borderBottomWidth='1px'>Basic Drawer</DrawerHeader>
+          <DrawerBody>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer> */}
 
     </>
   )
