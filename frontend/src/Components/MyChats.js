@@ -9,15 +9,16 @@ import {} from '../config/ChatLogics'
 import ProfileModal from './miscellaneous/ProfileModal'
 import GroupChatModal from './miscellaneous/GroupChatModal'
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
 
   const [loggedUser, setLoggedUser] = useState()
   const {user,selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
+  console.log('printing the chats...', chats)
+
   const toast = useToast()
 
   const fetchChats = async () => {
-    // console.log(user._id);
     try {
       const config = {
         headers: {
@@ -44,23 +45,18 @@ const MyChats = () => {
   useEffect(() =>{
       setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
       fetchChats()
-  },[])
+  },[fetchAgain])
 
   return (
-    // <Box height="100vh"  w={{ base: "100%", md: "31%" }}>
     <Box
     display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
     flexDir="column"
     alignItems="center"
     p={3}
-    // bg="grey"
     bg="white"
     w={{ base: "100%", md: "31%" }}
     borderRadius="lg"
     borderWidth="1px"
-    // height="100%"
-    // h="100%"
-    // h={{ base: "100%", md: "31%" }}
     h="500px"
 
     >
@@ -76,15 +72,13 @@ const MyChats = () => {
     >
       My Chats
       <GroupChatModal>
-      <Button
-            display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            New Group Chat
-            {/* <ProfileModal></ProfileModal> */}
+          <Button
+              display="flex"
+              fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+              rightIcon={<AddIcon />} >
+                  New Group Chat
           </Button>
-          </GroupChatModal>
+      </GroupChatModal>
        </Box>
        <Box
         display="flex"
@@ -94,8 +88,7 @@ const MyChats = () => {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden"
-      >
+        overflowY="hidden">
         {chats ? (
           <Stack overflowY='scrool'>
             { chats.map((chat) =>(<Box
@@ -109,6 +102,7 @@ const MyChats = () => {
             key={chat._id}
 
             >
+              {console.log('isGroupChat of group',chat.isGroupChat)}
               <Text>
                 {
                   !chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName
@@ -120,7 +114,6 @@ const MyChats = () => {
         ) : <ChatLoading/>}
      </Box>
       </Box>
-      // </Box>
   )
 }
 

@@ -3,11 +3,13 @@ import { ChatState } from "../Context/chatProvider"
 import { Box } from "@chakra-ui/react"
 import MyChats from "../Components/MyChats"
 import ChatBox from "../Components/ChatBox"
+import { useState } from "react"
 // import ChatState from "../Context/chatProvider"
 
 
 function Chatpage() {
     const { user }  = ChatState()
+    const [fetchAgain, setFetchAgain] = useState()
     console.log('inside chatpage', user)
     // const user = ChatState()
     console.log("sidedrawer user using context api",user)
@@ -25,8 +27,8 @@ function Chatpage() {
             <div 
              style={{display : 'flex', justifyContent :'space-between'}}
             >
-                {user && <MyChats/>}
-                {user && <ChatBox/>}
+                {user && <MyChats fetchAgain={fetchAgain}   />}
+                {user && <ChatBox fetchAgain={fetchAgain}  setFetchAgain={setFetchAgain} />}
             </div>
         {/* </Box> */}
     </div>
