@@ -32,7 +32,6 @@ const Login = () => {
       return;
     }
 
-    // console.log(email, password);
     try {
       const config = {
         headers: {
@@ -46,16 +45,10 @@ const Login = () => {
         { email, password },
         config
       );
-
-      console.log('backend response display at frontend', data.token )
-
-      console.log("At Home backend response display at frontend", data);
      
       localStorage.setItem("token", data.token);
       localStorage.setItem("Prabhas_Token", "qwerty@123");
 
-
-      // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
         status: "success",
@@ -115,17 +108,6 @@ const Login = () => {
       >
         Login
       </Button>
-      {/* <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@example.com");
-          setPassword("123456");
-        }}
-      >
-        Get Guest User Credentials
-      </Button> */}
     </VStack>
   );
 };

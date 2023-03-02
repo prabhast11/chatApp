@@ -5,6 +5,7 @@ var cors = require('cors');
 const connectDB= require('./config/db')
 const userRoutes = require('./routes/userRoutes')
 const chatRoutes = require('./routes/chatRoutes')
+const messageRoutes = require('./routes/messageRoutes')
 
 connectDB()
 
@@ -20,7 +21,7 @@ app.get('/',(req, res) =>{
 
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
-
+app.use('/api/message', messageRoutes)
 
 
 // app.get('/api/chat', (req, res) =>{

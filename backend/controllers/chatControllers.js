@@ -22,6 +22,10 @@ const  accessChat = asyncHandler(async (req, res) => {
       { users: { $elemMatch: { $eq: userId } } },
     ],
   })
+  
+  console.log('after 5555555555555555', isChat)
+
+  // res.send(isChat)
     .populate("users","-password")
     .populate("latestMessage");
 
@@ -139,7 +143,7 @@ const renameGroup = asyncHandler ( async (req, res) =>{
 
 const addToGroup = asyncHandler ( async (req, res) =>{
     const { chatId , userId} = req.body
-
+    console.log('prabhas latest console')
     console.log('my chatId',typeof  mongoose.Types.ObjectId(userId)  )
     // new ObjectId(idinstring);
     // const data = await Chat.find({_id : chatId})

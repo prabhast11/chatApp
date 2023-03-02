@@ -41,8 +41,6 @@ const GroupChatModal = ({ children }) => {
   // }, [search]);
 
   const handleSearch = async (query) =>{
-
-    console.log('ppp tttttttttt search', search, query)
     
     await setSearch(query)
       if(!query){
