@@ -10,9 +10,9 @@ import { useState } from "react"
 function Chatpage() {
     const { user }  = ChatState()
     const [fetchAgain, setFetchAgain] = useState()
-    console.log('inside chatpage', user)
+    // console.log('inside chatpage', user)
     // const user = ChatState()
-    console.log("sidedrawer user using context api",user)
+    // console.log("sidedrawer user using context api",user)
 
   return (  
     <div style={{width : "100%"}}>

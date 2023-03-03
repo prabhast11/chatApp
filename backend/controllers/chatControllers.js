@@ -10,6 +10,8 @@ const { remove } = require("../Models/userModel");
 const  accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
+  console.log('justin', userId)
+
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
@@ -23,9 +25,6 @@ const  accessChat = asyncHandler(async (req, res) => {
     ],
   })
   
-  console.log('after 5555555555555555', isChat)
-
-  // res.send(isChat)
     .populate("users","-password")
     .populate("latestMessage");
 

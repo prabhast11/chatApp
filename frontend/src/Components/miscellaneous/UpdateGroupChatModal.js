@@ -24,7 +24,7 @@ import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
 
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, selectedChat, setSelectedChat} = ChatState()
 
@@ -126,8 +126,10 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
           }, config)
 
           setSelectedChat(data)
-          setLoading(false)
           setFetchAgain(!fetchAgain)
+          fetchMessage()
+          setLoading(false)
+
 
     } catch (error) {
       toast({
@@ -221,7 +223,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
   }
   return (
     <>
-      { console.log('group chat',selectedChat)  }
+      {/* { console.log('group chat',selectedChat)  } */}
       <IconButton
         icon={<ViewIcon />}
         onClick={onOpen}
