@@ -3,8 +3,12 @@ import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Route } from 'react-router-dom';
 import Chatpage from './Pages/Chatpage';
 import Homepage from './Pages/Homepage';
+import { useEffect } from 'react';
+import io from 'socket.io-client'
+
 
 function App() {
+
   return (
     <div className="App">
       {/* Hello */}

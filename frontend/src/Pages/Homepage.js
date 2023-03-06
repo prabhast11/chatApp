@@ -9,6 +9,7 @@ function Homepage() {
 
   useEffect(() =>{
     const user = JSON.parse(localStorage.getItem("userInfo"))
+    console.log('checking the logout function', user)
 
     if(user){
       history.push('/chats')

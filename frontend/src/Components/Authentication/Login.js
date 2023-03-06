@@ -18,7 +18,7 @@ const Login = () => {
   const history = useHistory();
 
   const submitHandler = async () => {
-    console.log('login submit', email, password)
+    // console.log("login submit", email, password);
     setLoading(true);
     if (!email || !password) {
       toast({
@@ -45,9 +45,8 @@ const Login = () => {
         { email, password },
         config
       );
-     
+
       localStorage.setItem("token", data.token);
-      localStorage.setItem("Prabhas_Token", "qwerty@123");
 
       toast({
         title: "Login Successful",

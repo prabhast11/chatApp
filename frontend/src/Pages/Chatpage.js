@@ -5,10 +5,12 @@ import MyChats from "../Components/MyChats"
 import ChatBox from "../Components/ChatBox"
 import { useState } from "react"
 // import ChatState from "../Context/chatProvider"
+ 
+ 
+  function Chatpage() {
+     const { user }  =   ChatState()
 
-
-function Chatpage() {
-    const { user }  = ChatState()
+    console.log('just after login.. value of user variable', user)
     const [fetchAgain, setFetchAgain] = useState()
     // console.log('inside chatpage', user)
     // const user = ChatState()
@@ -36,9 +38,6 @@ function Chatpage() {
 }
 
 export default Chatpage
-
-
-
 
 
 // import React, { useState, useEffect } from 'react';

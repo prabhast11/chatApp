@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
 const authUser = async (req, res) =>{
     const {email, password} = req.body
     const user = await User.findOne({email})
-    console.log('data from front end', email,password)
+    // console.log('data from front end', email,password)
 
     if(user &&  (await user.matchPassword(password)) ){
          return res.json({

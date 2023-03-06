@@ -14,7 +14,7 @@ const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState()
   const {user,selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
-  console.log('printing the chats...', chats)
+  // console.log('printing the chats...', chats)
 
   const toast = useToast()
 
@@ -58,7 +58,6 @@ const MyChats = ({ fetchAgain }) => {
     borderRadius="lg"
     borderWidth="1px"
     h="500px"
-
     >
     <Box
       pb={3}
@@ -88,7 +87,9 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden">
+        // overflowY="hidden"
+        overflowY="scroll"
+        >
         {chats ? (
           <Stack overflowY='scrool'>
             { chats.map((chat) =>(<Box
@@ -102,10 +103,12 @@ const MyChats = ({ fetchAgain }) => {
             key={chat._id}
 
             >
-              {console.log('isGroupChat of group',chat.isGroupChat)}
+              {/* {console.log('isGroupChat of group',chat.isGroupChat)} */}
               <Text>
                 {
-                  !chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName
+                  !chat.isGroupChat ? (
+                  getSender(loggedUser, chat.users)) : 
+                  chat.chatName
                 }
               </Text>
 

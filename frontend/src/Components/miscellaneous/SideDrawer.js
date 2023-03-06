@@ -64,7 +64,7 @@ const SideDrawer = () => {
 
             try {
                     setLoading(true)
-                    
+
                     const config = {
                         headers : {
                             Authorization : `Bearer ${user.token}`
@@ -72,7 +72,7 @@ const SideDrawer = () => {
                     }
                     
                     const { data } = await axios.get(`/api/user?search=${search}`, config)
-                    console.log('loading data....', data )
+                    // console.log('loading data....', data )
                     setLoading(false)
                     setSearchResult(data)
 

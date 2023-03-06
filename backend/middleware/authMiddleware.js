@@ -5,7 +5,7 @@ const asyncHandler = require("express-async-handler");
 const protect = async (req, res, next) => {
   let token;
 
-  console.log('printing the token',req.headers.authorization)
+  // console.log('printing the token',req.headers.authorization)
 
   if (
     req.headers.authorization &&
