@@ -26,13 +26,11 @@ import { useEffect } from "react";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
 
-import io from 'socket.io-client'
-const ENDPOINT = "http://localhost:5005"
-var socket
-
+import io from "socket.io-client";
+const ENDPOINT = "http://localhost:5005";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-
   // selectedChat : user and group on which the mouse is clicked
   const { user, selectedChat, setSelectedChat } = ChatState();
   const toast = useToast();
@@ -46,7 +44,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   // to indicate whether the socket is connected or not
 
-  const [socketConnected, setSocketConnected] = useState(false)
+  const [socketConnected, setSocketConnected] = useState(false);
+
+  //very first time when user loggs in user will connect to socket
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+
+    socket.on("connection", () => {
+      setSocketConnected(true);
+    });
+  }, []);
 
   // fetching all the messages of particular chat  to render it on the screen
   // when that chat is pressed
@@ -67,15 +75,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
-      console.log("on friday evening", data);
+      // console.log("on friday evening", data);
       setMessages(data);
       setLoading(false);
-      console.log("after the lunch", messages);
+      // console.log("after the lunch", messages);
 
-      socket.emit('join chat', selectedChat._id)
-
-
-
+      console.log("selected chat id room id", selectedChat._id);
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Please Fill all the Feilds",
@@ -109,11 +115,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
 
-        console.log("send a single message", data);
-
         // once we type the message and hit the enter button our message is sent to backend
         // to store that message in that particuler chat so we are setting newMessage to empty
         setNewMessage("");
+
+        socket.emit("new message", data);
+
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -135,24 +142,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessage();
+    // making the copy of selected chat so that to emit the message or show the notification
+    // ie the moment when we just logged in but doesn't clicked on a chat in mychats area
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-  useEffect(() =>{
-      socket = io(ENDPOINT)
-      socket.emit("setup",user)
+  useEffect(() => {
+    socket.on("new message", (newMessageReceived) => {
+      console.log("././././", newMessageReceived);
+      if (!newMessageReceived.chats) {
+        console.log(`User does't exist`);
+      }
+      socket.emit(messages);
+    });
+  }, []);
 
-      socket.on("connection", () =>{
-        setSocketConnected(true)
-      })
-
-      socket.on("new Message", (newMessageReceived) =>{
-        if(!newMessageReceived.chats){
-          console.log(`User does't exist`)
-        }
-        socket.emit(messages)
-      })
-
-  },[])
+  useEffect(() => {
+    socket.on("message received", (newMessageReceived) => {
+      console.log("JOSEPSH 2", newMessageReceived);
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageReceived.chat._id
+      ) {
+        // give notification
+      } else {
+        setMessages([...messages, newMessageReceived]);
+      }
+    });
+  });
 
   return (
     <>

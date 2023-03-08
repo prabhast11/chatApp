@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
+
 connectDB();
 
 const app = express();
@@ -34,7 +35,7 @@ const io = require("socket.io")(server, {
     origin: "http://localhost:3000",
   },
 });
-
+ 
 io.on("connection", (socket) => {
   console.log("A new client connected to socket connection");
 
@@ -45,7 +46,28 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join chat", (room) => {
+    // console.log('selected chat id at backend', room)
     socket.join(room);
-    console.log('user joined room', + room)
+    console.log('user joined room',  room)
   });
+
+  socket.on('new message',(newMessageReceived) =>{
+      var chat = newMessageReceived.chat
+
+      console.log('going through newmessage',newMessageReceived)
+      console.log('done with printing',newMessageReceived)
+
+      console.log('joseph', chat  )
+
+      if(!chat.users) return console.log('chat.user not found')      
+
+      chat.users.forEach(user => {
+        console.log('josepsh 1',user._id === newMessageReceived.sender._id )
+        if(user._id === newMessageReceived.sender._id) return
+        socket.in(user._id).emit("message received", newMessageReceived)
+        // socket.in(user._id).emit("message received", newMessageReceived)
+        // socket.in(chat._id).emit("message received", newMessageReceived)
+      });
+    })
+    
 });

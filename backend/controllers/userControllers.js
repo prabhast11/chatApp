@@ -4,20 +4,18 @@ const generateToken = require('../config/generateToken')
 
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body
-
-    console.log('data at backend 22nd feb', name, email, password)
     
     if(!name || !email || !password){
-        console.log('first')
+        // console.log('first')
      return   res.status(400)
         throw new Error('Please provide all the field')
     }
 
     const userExist = await User.findOne({email})
-    console.log('exist user',userExist)
+    // console.log('exist user',userExist)
 
     if(userExist){
-        console.log('second')
+        // console.log('second')
       return  res.status(400).json("user already exist")
         throw new Error('User already exists')
     }

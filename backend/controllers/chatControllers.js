@@ -10,7 +10,6 @@ const { remove } = require("../Models/userModel");
 const  accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  console.log('justin', userId)
 
   if (!userId) {
     console.log("UserId param not sent with request");

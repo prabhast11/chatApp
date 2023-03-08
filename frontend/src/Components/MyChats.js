@@ -19,7 +19,7 @@ const MyChats = ({ fetchAgain }) => {
   const toast = useToast()
 
   const fetchChats = async () => {
-    try {
+    try { 
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
